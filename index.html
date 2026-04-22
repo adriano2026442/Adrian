@@ -1,619 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>UNSEEN WORLD CUP · SYMPHONY OF VINES INERTIA</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            cursor: none;
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SUPER MOTION PROJECT</title>
 
-        body {
-            background: #03030A;
-            font-family: 'Inter', sans-serif;
-            color: #F0F2F8;
-            overflow-x: hidden;
-        }
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial, Helvetica, sans-serif;
+}
 
-        /* ---- INERTIA CURSOR ELEMENTS (glacial / particle trail) ---- */
-        .inertia-cursor {
-            position: fixed;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255,90,130,0.9), rgba(255,50,90,0.3));
-            box-shadow: 0 0 18px #ff3366, 0 0 8px rgba(255,51,102,0.6);
-            pointer-events: none;
-            z-index: 9999;
-            transform: translate(-50%, -50%);
-            transition: width 0.1s, height 0.1s;
-            mix-blend-mode: difference;
-            backdrop-filter: blur(2px);
-        }
+body{
+  background:#000;
+  overflow-x:hidden;
+  color:white;
+}
 
-        .inertia-trail {
-            position: fixed;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: rgba(255, 120, 160, 0.5);
-            pointer-events: none;
-            z-index: 9998;
-            filter: blur(2px);
-            transition: opacity 0.4s ease;
-            opacity: 0.6;
-        }
+/* HERO */
+.hero{
+  height:100vh;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  overflow:hidden;
+}
 
-        /* noise / grain texture (unseen signature) */
-        .noise-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 3;
-            opacity: 0.06;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-            background-repeat: repeat;
-            mix-blend-mode: overlay;
-        }
+.hero img{
+  position:absolute;
+  width:120%;
+  height:120%;
+  object-fit:cover;
+  filter:contrast(1.2) saturate(1.3);
+  animation: zoomPan 10s infinite alternate ease-in-out;
+}
 
-        /* main container */
-        .site-wrapper {
-            position: relative;
-            z-index: 10;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem 2rem 5rem;
-        }
+@keyframes zoomPan{
+  0%{transform:scale(1) translate(0px,0px);}
+  100%{transform:scale(1.2) translate(-40px,-20px);}
+}
 
-        /* hero section */
-        .hero {
-            margin-bottom: 3.5rem;
-            position: relative;
-        }
+.overlay{
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:radial-gradient(circle, rgba(0,0,0,0.2), rgba(0,0,0,0.9));
+}
 
-        .hero-sub {
-            font-size: 0.8rem;
-            letter-spacing: 6px;
-            text-transform: uppercase;
-            font-weight: 500;
-            color: #FFB7C5;
-            margin-bottom: 1rem;
-            display: inline-block;
-            border-left: 3px solid #FF3366;
-            padding-left: 14px;
-            animation: fadeSlide 0.9s ease-out;
-        }
+.title{
+  z-index:2;
+  font-size:4vw;
+  letter-spacing:8px;
+  animation: glitch 2s infinite;
+}
 
-        h1 {
-            font-size: clamp(3rem, 11vw, 7rem);
-            font-weight: 800;
-            line-height: 1.02;
-            letter-spacing: -0.03em;
-            background: linear-gradient(125deg, #FFFFFF, #C0B9FF, #FF9F6E);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            margin-bottom: 1rem;
-            animation: fadeSlide 0.9s ease-out 0.05s backwards;
-        }
+@keyframes glitch{
+  0%{transform:translate(0);}
+  20%{transform:translate(-2px,2px);}
+  40%{transform:translate(2px,-2px);}
+  60%{transform:translate(-1px,1px);}
+  80%{transform:translate(1px,-1px);}
+  100%{transform:translate(0);}
+}
 
-        .hero-description {
-            font-size: 1.2rem;
-            font-weight: 400;
-            color: #C2C5E0;
-            max-width: 600px;
-            margin-bottom: 2rem;
-            animation: fadeSlide 0.9s ease-out 0.1s backwards;
-        }
+/* SCROLL SECTION */
+.section{
+  padding:100px 10%;
+}
 
-        .player-credits {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-top: 1rem;
-            background: rgba(15, 15, 28, 0.65);
-            backdrop-filter: blur(14px);
-            border-radius: 50px;
-            padding: 0.6rem 1.6rem;
-            width: fit-content;
-            border: 0.5px solid rgba(255,100,130,0.3);
-        }
+.card-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:20px;
+}
 
-        .player-credits span {
-            color: #FFCC88;
-            font-weight: 700;
-        }
+.card{
+  background:#111;
+  padding:20px;
+  border-radius:20px;
+  transform:translateY(50px);
+  opacity:0;
+  transition:all 1s ease;
+}
 
-        /* categories with inertia glow */
-        .categories {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.8rem;
-            margin: 3rem 0 2rem;
-            border-bottom: 1px solid rgba(255,255,240,0.08);
-            padding-bottom: 1.5rem;
-        }
+.card.show{
+  transform:translateY(0);
+  opacity:1;
+}
 
-        .cat-btn {
-            background: rgba(10, 10, 22, 0.7);
-            border: 1px solid rgba(255,255,255,0.18);
-            padding: 0.65rem 1.5rem;
-            border-radius: 40px;
-            font-weight: 500;
-            font-size: 0.9rem;
-            cursor: none;
-            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.2);
-            color: #E0E2FF;
-            backdrop-filter: blur(8px);
-        }
+.card:hover{
+  transform:scale(1.05);
+  background:#1a1a1a;
+}
 
-        .cat-btn i {
-            margin-right: 8px;
-        }
+/* FLOATING ELEMENTS */
+.float{
+  position:absolute;
+  width:80px;
+  height:80px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.08);
+  animation: float 6s infinite ease-in-out;
+}
 
-        .cat-btn:hover {
-            background: #FF3366;
-            border-color: #FF6699;
-            transform: translateY(-3px);
-            box-shadow: 0 12px 25px -10px rgba(255,51,102,0.5);
-            color: white;
-        }
-
-        .cat-btn.active {
-            background: #FF3366;
-            border-color: #FF99BB;
-            color: white;
-            box-shadow: 0 8px 22px rgba(255,51,102,0.4);
-        }
-
-        /* teams grid — cinematic cards */
-        .teams-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 2rem;
-            margin: 2.5rem 0 3rem;
-        }
-
-        .team-card {
-            background: rgba(12, 12, 26, 0.7);
-            backdrop-filter: blur(12px);
-            border-radius: 2rem;
-            padding: 1.6rem;
-            border: 1px solid rgba(255,255,245,0.08);
-            transition: all 0.35s cubic-bezier(0.2, 0.95, 0.4, 1.1);
-            cursor: none;
-            position: relative;
-            overflow: hidden;
-            transform: translateY(0);
-        }
-
-        .team-card:hover {
-            transform: translateY(-8px) scale(1.01);
-            background: rgba(26, 26, 48, 0.85);
-            border-color: rgba(255, 102, 153, 0.6);
-            box-shadow: 0 30px 40px -12px rgba(0,0,0,0.6);
-        }
-
-        .team-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,200,210,0.08), transparent);
-            transition: left 0.7s;
-        }
-
-        .team-card:hover::before {
-            left: 100%;
-        }
-
-        .team-flag {
-            font-size: 3.2rem;
-            filter: drop-shadow(0 6px 12px rgba(0,0,0,0.5));
-            transition: transform 0.2s;
-        }
-
-        .team-name {
-            font-size: 1.7rem;
-            font-weight: 700;
-            letter-spacing: -0.3px;
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin: 0.5rem 0 0.2rem;
-        }
-
-        .team-code {
-            font-size: 0.75rem;
-            background: rgba(255,100,130,0.2);
-            padding: 0.2rem 0.7rem;
-            border-radius: 30px;
-        }
-
-        .team-group {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            color: #B3B3DF;
-            margin-bottom: 1rem;
-        }
-
-        .players-preview {
-            display: flex;
-            gap: 0.6rem;
-            flex-wrap: wrap;
-            margin: 0.9rem 0;
-        }
-
-        .player-badge {
-            background: rgba(255,51,102,0.18);
-            border-radius: 30px;
-            padding: 0.2rem 0.9rem;
-            font-size: 0.7rem;
-            font-weight: 500;
-            color: #FFB7CC;
-        }
-
-        .expand-icon {
-            margin-top: 1rem;
-            font-size: 0.8rem;
-            text-align: right;
-            color: #FF9FBB;
-            transition: transform 0.25s;
-        }
-
-        .team-card:hover .expand-icon i {
-            transform: translateX(6px);
-        }
-
-        /* MODAL with inertia elegance */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.88);
-            backdrop-filter: blur(18px);
-            z-index: 2000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.4s ease;
-        }
-
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal-container {
-            background: #0A0A16;
-            max-width: 550px;
-            width: 90%;
-            border-radius: 2.5rem;
-            border: 1px solid rgba(255,255,200,0.2);
-            padding: 2rem;
-            transform: scale(0.94);
-            transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.5, 1.3);
-            box-shadow: 0 35px 60px rgba(0,0,0,0.6);
-        }
-
-        .modal-overlay.active .modal-container {
-            transform: scale(1);
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 1.3rem;
-            right: 1.5rem;
-            font-size: 1.4rem;
-            cursor: none;
-            background: rgba(255,255,255,0.1);
-            width: 34px;
-            height: 34px;
-            border-radius: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-close:hover {
-            background: #FF3366;
-            transform: rotate(90deg);
-        }
-
-        .modal-flag {
-            font-size: 4rem;
-        }
-
-        .modal-title {
-            font-size: 2.2rem;
-            font-weight: 800;
-        }
-
-        .star-list {
-            margin-top: 1rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            padding-top: 1rem;
-        }
-
-        /* footer */
-        .footer-note {
-            text-align: center;
-            margin-top: 3rem;
-            padding-top: 1.8rem;
-            border-top: 1px solid rgba(255,255,255,0.04);
-            font-size: 0.8rem;
-            color: #7A7A9E;
-        }
-
-        @keyframes fadeSlide {
-            from {
-                opacity: 0;
-                transform: translateY(28px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @media (max-width: 680px) {
-            .site-wrapper {
-                padding: 1rem;
-            }
-            .cat-btn {
-                cursor: auto;
-            }
-            body {
-                cursor: auto;
-            }
-            .inertia-cursor, .inertia-trail {
-                display: none;
-            }
-        }
-    </style>
-</head>
-<body>
-<div class="noise-overlay"></div>
-<div class="inertia-cursor" id="mainCursor"></div>
-<div class="site-wrapper">
-    <div class="hero">
-        <div class="hero-sub">⚡ FIFA WORLD CUP · INERTIA EDITION</div>
-        <h1>UNSEEN <br> SYMPHONY</h1>
-        <div class="hero-description">
-            glacial motion meets football majesty · every team, one fluid energy.<br>
-            move your cursor — feel the drift.
-        </div>
-        <div class="player-credits">
-            <i class="fas fa-dove" style="color:#FF6B8A;"></i> 
-            <span>VITINH</span> · <span>LEAO</span> · <span>N.MENDES</span> · <span>B.FERNANDES</span> · 
-            <i class="fas fa-mask"></i> #23
-        </div>
-    </div>
-
-    <!-- categories filter -->
-    <div class="categories" id="categoriesFilter">
-        <button class="cat-btn active" data-cat="all"><i class="fas fa-globe"></i> ALL TEAMS</button>
-        <button class="cat-btn" data-cat="groupA"><i class="fas fa-layer-group"></i> GROUP A</button>
-        <button class="cat-btn" data-cat="groupB"><i class="fas fa-layer-group"></i> GROUP B</button>
-        <button class="cat-btn" data-cat="groupC"><i class="fas fa-layer-group"></i> GROUP C</button>
-        <button class="cat-btn" data-cat="groupD"><i class="fas fa-layer-group"></i> GROUP D</button>
-        <button class="cat-btn" data-cat="groupE"><i class="fas fa-layer-group"></i> GROUP E</button>
-        <button class="cat-btn" data-cat="groupF"><i class="fas fa-layer-group"></i> GROUP F</button>
-        <button class="cat-btn" data-cat="groupG"><i class="fas fa-layer-group"></i> GROUP G</button>
-        <button class="cat-btn" data-cat="groupH"><i class="fas fa-layer-group"></i> GROUP H</button>
-        <button class="cat-btn" data-cat="knockout"><i class="fas fa-trophy"></i> KNOCKOUT</button>
-    </div>
-
-    <div class="teams-grid" id="teamsGrid"></div>
-    <div class="footer-note">
-        <i class="fas fa-water"></i> INERTIA DRIFT · SYMPHONY OF VINES INSPIRED · CURSOR CARVES THE PITCH <i class="fas fa-mountain"></i>
-    </div>
-</div>
-
-<!-- modal -->
-<div id="teamModal" class="modal-overlay">
-    <div class="modal-container">
-        <div class="modal-close" id="closeModalBtn"><i class="fas fa-times"></i></div>
-        <div id="modalDynamicContent"></div>
-    </div>
-</div>
-
-<script>
-    // ----------------------------------------------
-    // WORLD CUP TEAMS DATA (enriched with group & knockout)
-    // ----------------------------------------------
-    const teamsData = [
-        { name: "Qatar", code: "QAT", flag: "🇶🇦", group: "groupA", groupName: "Group A", stars: ["Akram Afif", "Almoez Ali"], knockoutReady: false },
-        { name: "Ecuador", code: "ECU", flag: "🇪🇨", group: "groupA", groupName: "Group A", stars: ["Enner Valencia", "Caicedo"], knockoutReady: false },
-        { name: "Senegal", code: "SEN", flag: "🇸🇳", group: "groupA", groupName: "Group A", stars: ["Mané", "Koulibaly"], knockoutReady: false },
-        { name: "Netherlands", code: "NED", flag: "🇳🇱", group: "groupA", groupName: "Group A", stars: ["Van Dijk", "De Jong"], knockoutReady: true },
-        { name: "England", code: "ENG", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", group: "groupB", groupName: "Group B", stars: ["Kane", "Bellingham"], knockoutReady: true },
-        { name: "Iran", code: "IRN", flag: "🇮🇷", group: "groupB", groupName: "Group B", stars: ["Taremi", "Jahanbakhsh"], knockoutReady: false },
-        { name: "USA", code: "USA", flag: "🇺🇸", group: "groupB", groupName: "Group B", stars: ["Pulisic", "McKennie"], knockoutReady: true },
-        { name: "Wales", code: "WAL", flag: "🏴󠁧󠁢󠁷󠁬󠁳󠁿", group: "groupB", groupName: "Group B", stars: ["Bale", "Ramsey"], knockoutReady: false },
-        { name: "Argentina", code: "ARG", flag: "🇦🇷", group: "groupC", groupName: "Group C", stars: ["Messi", "Di Maria"], knockoutReady: true },
-        { name: "Saudi Arabia", code: "KSA", flag: "🇸🇦", group: "groupC", groupName: "Group C", stars: ["Salem"], knockoutReady: false },
-        { name: "Mexico", code: "MEX", flag: "🇲🇽", group: "groupC", groupName: "Group C", stars: ["Lozano", "Jimenez"], knockoutReady: false },
-        { name: "Poland", code: "POL", flag: "🇵🇱", group: "groupC", groupName: "Group C", stars: ["Lewandowski"], knockoutReady: false },
-        { name: "France", code: "FRA", flag: "🇫🇷", group: "groupD", groupName: "Group D", stars: ["Mbappé", "Griezmann"], knockoutReady: true },
-        { name: "Australia", code: "AUS", flag: "🇦🇺", group: "groupD", groupName: "Group D", stars: ["Ryan", "Duke"], knockoutReady: false },
-        { name: "Denmark", code: "DEN", flag: "🇩🇰", group: "groupD", groupName: "Group D", stars: ["Eriksen", "Højbjerg"], knockoutReady: false },
-        { name: "Tunisia", code: "TUN", flag: "🇹🇳", group: "groupD", groupName: "Group D", stars: ["Khazri"], knockoutReady: false },
-        { name: "Spain", code: "ESP", flag: "🇪🇸", group: "groupE", groupName: "Group E", stars: ["Pedri", "Morata"], knockoutReady: true },
-        { name: "Costa Rica", code: "CRC", flag: "🇨🇷", group: "groupE", groupName: "Group E", stars: ["Navas"], knockoutReady: false },
-        { name: "Germany", code: "GER", flag: "🇩🇪", group: "groupE", groupName: "Group E", stars: ["Musiala", "Kimmich"], knockoutReady: true },
-        { name: "Japan", code: "JPN", flag: "🇯🇵", group: "groupE", groupName: "Group E", stars: ["Mitoma"], knockoutReady: false },
-        { name: "Belgium", code: "BEL", flag: "🇧🇪", group: "groupF", groupName: "Group F", stars: ["De Bruyne", "Courtois"], knockoutReady: true },
-        { name: "Canada", code: "CAN", flag: "🇨🇦", group: "groupF", groupName: "Group F", stars: ["Davies", "David"], knockoutReady: false },
-        { name: "Morocco", code: "MAR", flag: "🇲🇦", group: "groupF", groupName: "Group F", stars: ["Ziyech", "Hakimi"], knockoutReady: true },
-        { name: "Croatia", code: "CRO", flag: "🇭🇷", group: "groupF", groupName: "Group F", stars: ["Modric", "Perisic"], knockoutReady: true },
-        { name: "Brazil", code: "BRA", flag: "🇧🇷", group: "groupG", groupName: "Group G", stars: ["Neymar", "Vinicius"], knockoutReady: true },
-        { name: "Serbia", code: "SRB", flag: "🇷🇸", group: "groupG", groupName: "Group G", stars: ["Mitrovic"], knockoutReady: false },
-        { name: "Switzerland", code: "SUI", flag: "🇨🇭", group: "groupG", groupName: "Group G", stars: ["Xhaka"], knockoutReady: false },
-        { name: "Cameroon", code: "CMR", flag: "🇨🇲", group: "groupG", groupName: "Group G", stars: ["Aboubakar"], knockoutReady: false },
-        { name: "Portugal", code: "POR", flag: "🇵🇹", group: "groupH", groupName: "Group H", stars: ["VITINH", "LEAO", "N.MENDES", "B.FERNANDES", "Ronaldo"], knockoutReady: true },
-        { name: "Ghana", code: "GHA", flag: "🇬🇭", group: "groupH", groupName: "Group H", stars: ["Partey", "Kudus"], knockoutReady: false },
-        { name: "Uruguay", code: "URU", flag: "🇺🇾", group: "groupH", groupName: "Group H", stars: ["Valverde", "Suarez"], knockoutReady: false },
-        { name: "South Korea", code: "KOR", flag: "🇰🇷", group: "groupH", groupName: "Group H", stars: ["Son Heung-min"], knockoutReady: false }
-    ];
-
-    function getTeamsByCategory(cat) {
-        if (cat === "all") return teamsData;
-        if (cat === "knockout") return teamsData.filter(t => t.knockoutReady === true);
-        return teamsData.filter(t => t.group === cat);
-    }
-
-    function renderTeams(category = "all") {
-        const grid = document.getElementById("teamsGrid");
-        const filtered = getTeamsByCategory(category);
-        grid.innerHTML = "";
-        filtered.forEach((team, idx) => {
-            let previewPlayers = [...team.stars];
-            if (team.name === "Portugal") previewPlayers = ["VITINH", "LEAO", "N.MENDES", "B.FERNANDES"];
-            const playerBadges = previewPlayers.slice(0, 3).map(p => `<div class="player-badge"><i class="fas fa-user-astronaut"></i> ${p}</div>`).join('');
-            const card = document.createElement("div");
-            card.className = "team-card";
-            card.style.animation = `fadeSlide 0.5s ease backwards`;
-            card.style.animationDelay = `${Math.min(idx * 0.02, 0.25)}s`;
-            card.innerHTML = `
-                <div class="team-flag">${team.flag}</div>
-                <div class="team-name">${team.name}<span class="team-code">${team.code}</span></div>
-                <div class="team-group">${team.groupName} · ${team.knockoutReady ? '<i class="fas fa-crown" style="color:#FFB347;"></i> CONTENDER' : 'GROUP STAGE'}</div>
-                <div class="players-preview">${playerBadges}</div>
-                <div class="expand-icon"><i class="fas fa-arrow-right"></i> press to reveal inertia</div>
-            `;
-            card.addEventListener("click", () => openModalForTeam(team));
-            grid.appendChild(card);
-        });
-        if (filtered.length === 0) grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:3rem;">🌀 no teams in this motion filter</div>`;
-    }
-
-    function openModalForTeam(team) {
-        const modal = document.getElementById("teamModal");
-        const modalContent = document.getElementById("modalDynamicContent");
-        let starPlayers = [...team.stars];
-        if (team.name === "Portugal") starPlayers = ["VITINH", "LEAO", "N.MENDES", "B.FERNANDES", "CR7", "Bernardo Silva"];
-        const starsHtml = starPlayers.map(s => `<span class="player-badge" style="background:#2E1A36;">✨ ${s}</span>`).join('');
-        modalContent.innerHTML = `
-            <div class="modal-flag">${team.flag}</div>
-            <div class="modal-title">${team.name}</div>
-            <div class="modal-group">${team.groupName} · World Cup Symphony</div>
-            <div class="modal-stats" style="display:flex; gap:0.8rem; margin:1rem 0;">
-                <span class="stat-bubble" style="background:#1F1A2F; padding:0.3rem 1rem; border-radius:60px;"><i class="fas fa-glacier"></i> Inertia ready</span>
-                <span class="stat-bubble" style="background:#1F1A2F; padding:0.3rem 1rem;">🏆 rank ${Math.floor(Math.random() * 32)+1}</span>
-            </div>
-            <div class="star-list"><span><i class="fas fa-dragon"></i> KEY PLAYERS (glacial force)</span><div style="margin-top:12px; display:flex; flex-wrap:wrap; gap:8px;">${starsHtml}</div></div>
-            <div style="margin-top:1.8rem; background:rgba(255,51,102,0.12); border-radius:1.5rem; padding:1rem;"><i class="fas fa-waveform"></i> "Symphony of Vines meets the pitch — cursor momentum shapes the game."<div style="font-size:0.7rem; margin-top:6px;">UNSEEN STUDIO · INERTIA FIELD</div></div>
-        `;
-        modal.classList.add("active");
-        document.body.style.overflow = "hidden";
-    }
-
-    function closeModal() {
-        const modal = document.getElementById("teamModal");
-        modal.classList.remove("active");
-        document.body.style.overflow = "";
-    }
-
-    // ----- INERTIA & MOMENTUM CURSOR (smooth lag / trail effect, inspired by symphonyofvines) -----
-    let cursorX = 0, cursorY = 0;
-    let targetX = 0, targetY = 0;
-    let trailPoints = []; // store previous positions
-    const trailLength = 12;
-    const cursorElem = document.getElementById("mainCursor");
-    
-    function updateCursor() {
-        // inertia easing (elastic momentum)
-        cursorX += (targetX - cursorX) * 0.18;
-        cursorY += (targetY - cursorY) * 0.18;
-        if (cursorElem) {
-            cursorElem.style.transform = `translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`;
-            // dynamic pulse on movement
-            const speed = Math.hypot(targetX - cursorX, targetY - cursorY);
-            let scale = 1 + Math.min(speed * 0.012, 0.45);
-            cursorElem.style.width = `${22 + scale * 4}px`;
-            cursorElem.style.height = `${22 + scale * 4}px`;
-            cursorElem.style.background = `radial-gradient(circle, rgba(255, 80, 120, 0.9), rgba(255, 60, 100, 0.4))`;
-        }
-        // update trail particles
-        updateTrail();
-        requestAnimationFrame(updateCursor);
-    }
-
-    function updateTrail() {
-        // store current cursor position for trail
-        trailPoints.unshift({ x: cursorX, y: cursorY });
-        if (trailPoints.length > trailLength) trailPoints.pop();
-        // remove existing trail elements
-        const oldTrails = document.querySelectorAll('.inertia-trail');
-        oldTrails.forEach(t => t.remove());
-        // draw trail with gradient opacity
-        trailPoints.forEach((point, idx) => {
-            const trailDiv = document.createElement('div');
-            trailDiv.className = 'inertia-trail';
-            const ageFactor = 1 - (idx / trailLength);
-            const size = 6 + (1 - ageFactor) * 3;
-            trailDiv.style.width = `${size}px`;
-            trailDiv.style.height = `${size}px`;
-            trailDiv.style.left = `${point.x}px`;
-            trailDiv.style.top = `${point.y}px`;
-            trailDiv.style.opacity = ageFactor * 0.5;
-            trailDiv.style.background = `radial-gradient(circle, #FF88AA, #FF3A6F)`;
-            trailDiv.style.filter = `blur(${2 * (1-ageFactor)}px)`;
-            document.body.appendChild(trailDiv);
-        });
-    }
-
-    window.addEventListener('mousemove', (e) => {
-        targetX = e.clientX;
-        targetY = e.clientY;
-    });
-
-    // category filter & modal listeners
-    function initEvents() {
-        renderTeams("all");
-        const btns = document.querySelectorAll(".cat-btn");
-        btns.forEach(btn => {
-            btn.addEventListener("click", () => {
-                btns.forEach(b => b.classList.remove("active"));
-                btn.classList.add("active");
-                renderTeams(btn.getAttribute("data-cat"));
-            });
-        });
-        const modalOverlay = document.getElementById("teamModal");
-        const closeBtn = document.getElementById("closeModalBtn");
-        closeBtn.addEventListener("click", closeModal);
-        modalOverlay.addEventListener("click", (e) => { if (e.target === modalOverlay) closeModal(); });
-        document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
-    }
-
-    initEvents();
-    updateCursor();
-    
-    // small extra: add dynamic ripple effect on buttons (optional inertia)
-    document.querySelectorAll('.cat-btn, .team-card').forEach(el => {
-        el.addEventListener('mouseenter', () => {
-            if (cursorElem) cursorElem.style.transform += ` scale(1.1)`;
-        });
-        el.addEventListener('mouseleave', () => {
-            if (cursorElem) cursorElem.style.transform = `translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`;
-        });
-    });
-</script>
-</body>
-</html>
+@keyframes float{
+  0%{transform:translateY(0px);}
+  50%{transform:translateY(-30px);}
+  100%{transfo
