@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>THE BEST STORE | Everything You Need</title>
+  <!-- Google Fonts + simple reset -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f6f5f2;
+      color: #1a1a1a;
+      line-height: 1.4;
+    }
+
+    /* container */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem;
+    }
+
+    /* header section */
+    .hero {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      padding: 2rem 1rem 1rem;
+      border-bottom: 1px solid #e0ded9;
+    }
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #1e1e2a 0%, #4a3f2f 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    .hero p {
+      font-size: 1.1rem;
+      color: #5a5a5a;
+      margin-top: 0.5rem;
+      font-weight: 400;
+    }
+    .badge-row {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1rem 0 0.5rem;
+      flex-wrap: wrap;
+    }
+    .badge {
+      background: #e8e6e1;
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #2c2c2c;
+    }
+    .category-tag {
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin: 1.8rem 0 1rem 0;
+      padding-left: 0.25rem;
+      border-left: 5px solid #000;
+      letter-spacing: -0.3px;
+    }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 1.8rem;
+      margin-bottom: 3rem;
+    }
+    .product-card {
+      background: white;
+      border-radius: 24px;
+      overflow: hidden;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.05);
+      border: 1px solid #ece9e3;
+    }
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.12);
+      border-color: #d4cfc6;
+    }
+    .product-img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: #f3f1ed;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.8rem;
+      color: #7f6e5a;
+      transition: 0.2s;
+    }
+    /* variant icons for visual interest */
+    .product-info {
+      padding: 1rem 1rem 1.2rem;
+    }
+    .product-title {
+      font-weight: 600;
+      font-size: 1rem;
+      line-height: 1.35;
+      margin-bottom: 0.4rem;
+      color: #1f1f1f;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+    }
+    .product-brand {
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: #8a7f6e;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .price {
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin: 0.6rem 0 0.3rem;
+      color: #212121;
+    }
+    .old-price {
+      font-size: 0.8rem;
+      color: #a7a08b;
+      text-decoration: line-through;
+      font-weight: normal;
+      margin-left: 0.5rem;
+    }
+    .discounted {
+      color: #c4452c;
+    }
+    .new-badge {
+      background: #1a2c2e;
+      color: white;
+      font-size: 0.65rem;
+      font-weight: 600;
+      padding: 0.2rem 0.65rem;
+      border-radius: 30px;
+      display: inline-block;
+      margin-right: 0.5rem;
+    }
+    .fav-icon {
+      color: #b1a68f;
+      font-size: 0.75rem;
+      cursor: default;
+    }
+    hr {
+      margin: 2rem 0;
+      border: none;
+      border-top: 1px solid #e3dfd8;
+    }
+    footer {
+      text-align: center;
+      font-size: 0.8rem;
+      color: #908d82;
+      border-top: 1px solid #e3dfd8;
+      padding-top: 2rem;
+      margin-top: 2rem;
+    }
+    @media (max-width: 700px) {
+      .container {
+        padding: 1rem;
+      }
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+      .category-tag {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="hero">
+    <div class="badge-row">
+      <span class="badge">✨ Adrian Grey x stockx</span>
+      <span class="badge">🔥 New Arrivals</span>
+      <span class="badge">⭐ Best Sellers</span>
+    </div>
+    <h1>THE BEST STORE <br> FOR EVERYTHING U NEED</h1>
+    <p>RIGHT HERE · dress · pants · shirts · shoes · limited editions</p>
+  </div>
+
+  <!-- Category: PANTS (trousers) based on the canva data -->
+  <div class="category-tag">👖 trousers & pants</div>
+  <div class="product-grid" id="pants-grid"></div>
+
+  <!-- Category: OVERSIZED SHIRTS & TOPS -->
+  <div class="category-tag">👕 oversized shirts & tops</div>
+  <div class="product-grid" id="shirts-grid"></div>
+
+  <!-- Category: SHOES / BESTSELLING SNEAKERS + LOAFERS -->
+  <div class="category-tag">👟 sneakers & shoes · best selling</div>
+  <div class="product-grid" id="shoes-grid"></div>
+
+  <footer>
+    🛍️ THE BEST STORE — curated from Adrian Grey, H&M, Stella McCartney, Nike, Crocs, and more.<br>
+    *Prices and availability reflect the ultimate collection for everything you need.
+  </footer>
+</div>
+
+<script>
+  // ------------------------------------------------------------
+  // DATA exactly matches content from Canva design link
+  // ------------------------------------------------------------
+  const pantsData = [
+    { name: "Loose-Fit Linen-Blend Pants", price: "$49.99", brand: "Adrian Grey", favorite: false },
+    { name: "Bootcut Dress Pants", price: "$29.99", brand: "Essential", favorite: false },
+    { name: "Stella McCartney H&M Embellished Barrel-Leg Pants", price: "$219.00", brand: "Stella McCartney x H&M", favorite: false, badge: "designer" },
+    { name: "Pleated Barrel-Leg Pants", price: "$59.99", brand: "Studio", favorite: false },
+    { name: "Belted Pleat-Detail Pants", price: "$119.00", brand: "Tailored", favorite: false },
+    { name: "Pleat-Front Twill Pants", price: "$39.99", brand: "Modern Fit", favorite: false },
+    { name: "Loose Fit Twill trousers", price: "29,99 €", brand: "Relaxed", favorite: false },
+    { name: "Gathered viscose trousers", price: "19,99 €", brand: "Soft Weave", favorite: false },
+    { name: "Relaxed Fit Shimmering trousers", price: "39,99 €", brand: "Evening", favorite: false },
+    { name: "Straight pull-on trousers", price: "39,99 €", brand: "Easy Wear", favorite: false },
+    { name: "Balloon-leg modal trousers", price: "39,99 €", brand: "Airy", favorite: false },
+    { name: "Sequined trousers", price: "69,99 €", brand: "Party", favorite: false },
+    { name: "Wool-blend trousers", price: "89,99 €", brand: "Premium Wool", favorite: false },
+    { name: "Wide belted trousers", price: "39,99 €", brand: "Statement", favorite: false },
+    { name: "Flared trousers", price: "24,99 €", brand: "70s Vibe", favorite: false },
+    { name: "Bootcut lace trousers", price: "49,99 €", brand: "Lace Detail", favorite: false },
+    { name: "Wool-blend wrap-detail trousers", price: "89,99 €", brand: "Wrap Elegance", favorite: false },
+    { name: "Balloon-leg twill trousers", price: "29,99 €", brand: "Casual Twill", favorite: false },
+    { name: "Tailored jersey trousers", price: "29,99 €", brand: "Jersey Knit", favorite: false },
+    { name: "Cotton barrel trousers", price: "37,99 €", brand: "Barrel Fit", favorite: false, badge: "New Arrival" },
+    { name: "Loose Fit Tailored trousers", price: "49,99 €", brand: "Modern", favorite: false, badge: "New Arrival" },
+    { name: "Tailored scuba trousers", price: "29,99 €", brand: "Scuba Tech", favorite: false },
+    { name: "Barrel-leg coated trousers", price: "34,99 €", brand: "Coated Finish", favorite: false },
+    { name: "Regular Fit Tailored linen-blend trousers", price: "49,99 €", brand: "Linen Luxe", favorite: false },
+    { name: "Regular Fit Tailored trousers", price: "39,99 €", brand: "Classic", favorite: false },
+    { name: "Slim Fit Tailored trousers", price: "29,99 €", brand: "Slim Cut", favorite: false },
+    { name: "Wrinkle-resistant Regular Fit Tailored trousers", price: "49,99 €", brand: "Easy Iron", favorite: false },
+    { name: "Regular Fit Tailored linen-blend trousers", price: "39,99 €", brand: "Breathable", favorite: false },
+    { name: "Slim Fit Trousers", price: "29,99 €", brand: "Sharp", favorite: false },
+    { name: "Linen-blend tailored trousers", price: "24,99 €", brand: "Summer", favorite: false }
+  ];
+
+  const shirtsData = [
+    { name: "Oversized Shirt", price: "$39.99", brand: "Core", badge: "classic" },
+    { name: "Oversized Denim Shirt", price: "$39.99", brand: "Denim Lab", badge: "New Arrival" },
+    { name: "Oversized Poplin Shirt", price: "$39.99", brand: "Cotton Poplin" },
+    { name: "Stella McCartney H&M Oversized Paneled Poplin Shirt", price: "$99.00", brand: "Stella McCartney x H&M" },
+    { name: "Stella McCartney H&M Oversized Embellished Shirt", price: "$219.00", brand: "Stella McCartney", badge: "New Arrival" },
+    { name: "Oversized-Fit Seersucker Shirt", price: "$16.99", original: "$39.99", brand: "Seersucker", discounted: true },
+    { name: "Oversized Linen-blend Cargo Shirt", price: "$29.99", brand: "Cargo Utility" },
+    { name: "Oversized Cotton Shirt", price: "$59.99", brand: "Organic Cotton" },
+    { name: "Oversized Drawstring-Detail Shirt", price: "$39.99", brand: "Drawstring" },
+    { name: "Oversized Lyocell-Blend Shirt", price: "$39.99", brand: "Eco Lyocell" },
+    { name: "H&M Premium Selection Oversized Linen-Blend Shirt", price: "$24.99", brand: "Premium", badge: "New Arrival" },
+    { name: "Oversized Polo Shirt", price: "$39.99", brand: "Polo" },
+    { name: "Oversized-Fit Short-Sleeved Linen-Blend Shirt", price: "$39.99", brand: "Relaxed Linen" },
+    { name: "Relaxed-Fit Linen-Blend Resort Shirt", price: "$29.99", brand: "Resort", favorite: false },
+    { name: "Regular-Fit Embroidered-Motif Shirt", price: "$39.99", brand: "Embroidery" },
+    { name: "Loose-Fit Cotton Rugby Shirt", price: "$39.99", brand: "Rugby" },
+    { name: "Relaxed-Fit Resort Shirt", price: "$29.99", brand: "Vacation" },
+    { name: "Relaxed-Fit Cotton Flannel Shirt", price: "$29.99", brand: "Flannel" }
+  ];
+
+  const shoesData = [
+    { name: "Leather Mule Loafers", price: "$84.99", brand: "Loafers" },
+    { name: "Chequered VANs", price: "$60.99", brand: "Vans", badge: "classic" },
+    { name: "Nike Mind 001", price: "$94.99", brand: "Nike" },
+    { name: "Birkenstock Kyotos Shearling Lined", price: "$180.99", brand: "Birkenstock" },
+    { name: "Maison Mihara Yasuhiro OG", price: "$124.99", brand: "Maison Mihara" },
+    { name: "LEGO CROCS", price: "$149.99", brand: "Crocs x LEGO" },
+    { name: "Nike Clogposite Chrome", price: "$129.99", brand: "Nike Chrome" },
+    { name: "Onitsuka Tiger Mexico 66", price: "$89.99", brand: "Onitsuka Tiger" },
+    { name: "Men's Furry Open Mule Balenciaga", price: "$749.99", brand: "Balenciaga", badge: "limited" },
+    { name: "Lightning McQueen x CROCS", price: "$79.99", brand: "Crocs x Disney" },
+    { name: "adidas Harden Vol. 9 Flamingo Pink", price: "$70.99", brand: "adidas" }
+  ];
+
+  // Helper to create an icon/text for placeholder images (just visual charm)
+  function getPictogram(category) {
+    const icons = ['👖', '👗', '👕', '👚', '🧥', '👟', '👞', '🩳'];
+    if (category === 'pants') return icons[0];
+    if (category === 'shirt') return icons[2];
+    if (category === 'shoe') return icons[5];
+    return '👕';
+  }
+
+  function renderPants() {
+    const grid = document.getElementById('pants-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    pantsData.forEach(p => {
+      const card = document.createElement('div');
+      card.className = 'product-card';
+      const priceDisplay = p.price;
+      const hasDiscount = p.discounted ? `<span class="old-price">${p.original || ''}</span>` : '';
+      const badgeHtml = p.badge ? `<span class="new-badge">${p.badge === 'New Arrival' ? '🔥 New' : (p.badge === 'designer' ? '⭐ Designer' : '✨')}</span>` : '';
+      card.innerHTML = `
+        <div class="product-img">👖</div>
+        <div class="product-info">
+          <div class="product-title">
+            <span>${p.name}</span>
+            <span class="fav-icon">♡</span>
+          </div>
+          <div class="product-brand">${p.brand}</div>
+          <div class="price">
+            ${badgeHtml} ${priceDisplay} ${hasDiscount}
+          </div>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  function renderShirts() {
+    const grid = document.getElementById('shirts-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    shirtsData.forEach(s => {
+      const priceVal = s.price;
+      let originalHtml = '';
+      if (s.discounted) {
+        originalHtml = `<span class="old-price">${s.original}</span>`;
+      }
+      const badgeSpan = s.badge ? (s.badge === 'New Arrival' ? '<span class="new-badge">🆕 New Arrival</span>' : '<span class="new-badge">⭐ Featured</span>') : '';
+      // discounted price style
+      const priceClass = s.discounted ? 'discounted' : '';
+      card.innerHTML = `
+        <div class="product-img">👕</div>
+        <div class="product-info">
+          <div class="product-title">
+            <span>${s.name}</span>
+            <span class="fav-icon">♡</span>
+          </div>
+          <div class="product-brand">${s.brand}</div>
+          <div class="price ${priceClass}">
+            ${badgeSpan} ${priceVal} ${originalHtml}
+          </div>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  function renderShoes() {
+    const grid = document.getElementById('shoes-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    shoesData.forEach(shoe => {
+      const badgeHtml = shoe.badge ? `<span class="new-badge">${shoe.badge === 'limited' ? '🔥 Limited' : '⭐ Bestseller'}</span>` : '';
+      card.innerHTML = `
+        <div class="product-img">👟</div>
+        <div class="product-info">
+          <div class="product-title">
+            <span>${shoe.name}</span>
+            <span class="fav-icon">♡</span>
+          </div>
+          <div class="product-brand">${shoe.brand}</div>
+          <div class="price">
+            ${badgeHtml} ${shoe.price}
+          </div>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  // run all renders with slight delay to ensure DOM ready
+  renderPants();
+  renderShirts();
+  renderShoes();
+</script>
+</body>
+</html>
