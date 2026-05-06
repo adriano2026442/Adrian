@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>THE BEST STORE | Everything You Need</title>
-  <!-- Google Fonts + simple reset -->
+  <!-- Google Fonts + modern reset -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
   <style>
     * {
@@ -20,7 +20,6 @@
       line-height: 1.4;
     }
 
-    /* container */
     .container {
       max-width: 1400px;
       margin: 0 auto;
@@ -91,6 +90,7 @@
       box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.12);
       border-color: #d4cfc6;
     }
+    /* image wrapper with fallback */
     .product-img {
       width: 100%;
       aspect-ratio: 1 / 1;
@@ -98,11 +98,30 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 2.8rem;
-      color: #7f6e5a;
-      transition: 0.2s;
+      overflow: hidden;
+      position: relative;
     }
-    /* variant icons for visual interest */
+    .product-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+      display: block;
+    }
+    .product-card:hover .product-img img {
+      transform: scale(1.02);
+    }
+    /* fallback icon if image missing */
+    .fallback-icon {
+      font-size: 3rem;
+      color: #b9ae9a;
+      background: #f0ede7;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
     .product-info {
       padding: 1rem 1rem 1.2rem;
     }
@@ -155,11 +174,6 @@
       font-size: 0.75rem;
       cursor: default;
     }
-    hr {
-      margin: 2rem 0;
-      border: none;
-      border-top: 1px solid #e3dfd8;
-    }
     footer {
       text-align: center;
       font-size: 0.8rem;
@@ -193,7 +207,7 @@
     <p>RIGHT HERE · dress · pants · shirts · shoes · limited editions</p>
   </div>
 
-  <!-- Category: PANTS (trousers) based on the canva data -->
+  <!-- Category: PANTS (trousers) based on canva data -->
   <div class="category-tag">👖 trousers & pants</div>
   <div class="product-grid" id="pants-grid"></div>
 
@@ -201,20 +215,75 @@
   <div class="category-tag">👕 oversized shirts & tops</div>
   <div class="product-grid" id="shirts-grid"></div>
 
-  <!-- Category: SHOES / BESTSELLING SNEAKERS + LOAFERS -->
+  <!-- Category: SHOES BESTSELLING -->
   <div class="category-tag">👟 sneakers & shoes · best selling</div>
   <div class="product-grid" id="shoes-grid"></div>
 
   <footer>
     🛍️ THE BEST STORE — curated from Adrian Grey, H&M, Stella McCartney, Nike, Crocs, and more.<br>
-    *Prices and availability reflect the ultimate collection for everything you need.
+    *Images sourced from the official GitHub images folder.
   </footer>
 </div>
 
 <script>
   // ------------------------------------------------------------
-  // DATA exactly matches content from Canva design link
+  // FULL PRODUCT DATA (MATCHING CANVA DESIGN)
+  // Each product includes an imageFileName that references
+  // images from the GitHub repo: "./images/..." 
+  // For robust fallback if image 404, we display a styled icon.
   // ------------------------------------------------------------
+
+  // ----- HELPER: generate safe image url based on product slug / index
+  // We assume the images are stored in the "images" folder on the same github pages/relative path.
+  // To match your request "use the images from the images file on github", 
+  // we create a predictable naming pattern based on product name (lowercase, replace spaces/non-alnum)
+  // plus fallback to generic category images. This ensures we try to load actual images 
+  // if you have a folder named "images" with files like: loose-fit-linen-pants.jpg , oversized-shirt.jpg etc.
+  
+  function slugify(text) {
+    return text
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '');
+  }
+
+  // For product image we will generate a filename based on title (clean)
+  // But we also maintain a custom mapping for specific famous collabs
+  // to match realistic github images. If any image fails to load, fallback icon appears.
+  
+  // custom mapping for high-end specific items (to have better image match)
+  const customImageMap = {
+    "Stella McCartney H&M Embellished Barrel-Leg Pants": "stella-barrel-pants.jpg",
+    "Stella McCartney H&M Oversized Paneled Poplin Shirt": "stella-panel-shirt.jpg",
+    "Stella McCartney H&M Oversized Embellished Shirt": "stella-embellished-shirt.jpg",
+    "Maison Mihara Yasuhiro OG": "maison-mihara-og.jpg",
+    "Nike Mind 001": "nike-mind-001.jpg",
+    "Birkenstock Kyotos Shearling Lined": "birkenstock-kyotos.jpg",
+    "LEGO CROCS": "lego-crocs.jpg",
+    "Lightning McQueen x CROCS": "lightning-mcqueen-crocs.jpg",
+    "adidas Harden Vol. 9 Flamingo Pink": "adidas-harden-vol9.jpg",
+    "Chequered VANs": "vans-chequered.jpg",
+    "Men's Furry Open Mule Balenciaga": "balenciaga-furry-mule.jpg",
+    "Onitsuka Tiger Mexico 66": "onitsuka-mexico66.jpg",
+    "Nike Clogposite Chrome": "nike-clogposite-chrome.jpg"
+  };
+
+  function getImageFileName(product) {
+    // if product has explicit mapping from name
+    if (customImageMap[product.name]) {
+      return customImageMap[product.name];
+    }
+    // generate based on slug from product name + .jpg
+    let baseName = product.name;
+    // remove brand prefixes sometimes to keep clean
+    let slug = slugify(baseName);
+    return `${slug}.jpg`;
+  }
+
+  // image base path: assuming images folder at root (relative to html)
+  const IMAGE_BASE = "./images/";
+
+  // ----- DATA MODELS (exactly from canva)
   const pantsData = [
     { name: "Loose-Fit Linen-Blend Pants", price: "$49.99", brand: "Adrian Grey", favorite: false },
     { name: "Bootcut Dress Pants", price: "$29.99", brand: "Essential", favorite: false },
@@ -262,7 +331,7 @@
     { name: "H&M Premium Selection Oversized Linen-Blend Shirt", price: "$24.99", brand: "Premium", badge: "New Arrival" },
     { name: "Oversized Polo Shirt", price: "$39.99", brand: "Polo" },
     { name: "Oversized-Fit Short-Sleeved Linen-Blend Shirt", price: "$39.99", brand: "Relaxed Linen" },
-    { name: "Relaxed-Fit Linen-Blend Resort Shirt", price: "$29.99", brand: "Resort", favorite: false },
+    { name: "Relaxed-Fit Linen-Blend Resort Shirt", price: "$29.99", brand: "Resort" },
     { name: "Regular-Fit Embroidered-Motif Shirt", price: "$39.99", brand: "Embroidery" },
     { name: "Loose-Fit Cotton Rugby Shirt", price: "$39.99", brand: "Rugby" },
     { name: "Relaxed-Fit Resort Shirt", price: "$29.99", brand: "Vacation" },
@@ -283,13 +352,72 @@
     { name: "adidas Harden Vol. 9 Flamingo Pink", price: "$70.99", brand: "adidas" }
   ];
 
-  // Helper to create an icon/text for placeholder images (just visual charm)
-  function getPictogram(category) {
-    const icons = ['👖', '👗', '👕', '👚', '🧥', '👟', '👞', '🩳'];
-    if (category === 'pants') return icons[0];
-    if (category === 'shirt') return icons[2];
-    if (category === 'shoe') return icons[5];
-    return '👕';
+  // Helper to create product card with image from github images folder
+  function createProductCard(product, categoryType) {
+    const card = document.createElement('div');
+    card.className = 'product-card';
+    
+    const imageFileName = getImageFileName(product);
+    const imgSrc = IMAGE_BASE + imageFileName;
+    
+    // image wrapper with fallback mechanism
+    const imgWrapper = document.createElement('div');
+    imgWrapper.className = 'product-img';
+    
+    const img = document.createElement('img');
+    img.src = imgSrc;
+    img.alt = product.name;
+    img.loading = 'lazy';
+    img.onerror = function() {
+      // fallback: replace broken img with icon
+      const fallbackDiv = document.createElement('div');
+      fallbackDiv.className = 'fallback-icon';
+      let icon = '👖';
+      if (categoryType === 'shirt') icon = '👕';
+      if (categoryType === 'shoe') icon = '👟';
+      fallbackDiv.innerText = icon;
+      imgWrapper.innerHTML = '';
+      imgWrapper.appendChild(fallbackDiv);
+    };
+    imgWrapper.appendChild(img);
+    
+    // price & badge formatting
+    let priceHtml = '';
+    let badgeHtml = '';
+    if (product.badge) {
+      if (product.badge === 'New Arrival') badgeHtml = '<span class="new-badge">🔥 New Arrival</span>';
+      else if (product.badge === 'designer') badgeHtml = '<span class="new-badge">⭐ Designer</span>';
+      else if (product.badge === 'limited') badgeHtml = '<span class="new-badge">⚡ Limited</span>';
+      else if (product.badge === 'classic') badgeHtml = '<span class="new-badge">✨ Essential</span>';
+      else badgeHtml = `<span class="new-badge">${product.badge}</span>`;
+    }
+    
+    let originalPriceHtml = '';
+    let discountClass = '';
+    if (product.discounted && product.original) {
+      originalPriceHtml = `<span class="old-price">${product.original}</span>`;
+      discountClass = 'discounted';
+    }
+    const priceValue = product.price;
+    const brandName = product.brand || 'House brand';
+    
+    // title wrap
+    const infoDiv = document.createElement('div');
+    infoDiv.className = 'product-info';
+    infoDiv.innerHTML = `
+      <div class="product-title">
+        <span>${product.name}</span>
+        <span class="fav-icon">♡</span>
+      </div>
+      <div class="product-brand">${brandName}</div>
+      <div class="price ${discountClass}">
+        ${badgeHtml} ${priceValue} ${originalPriceHtml}
+      </div>
+    `;
+    
+    card.appendChild(imgWrapper);
+    card.appendChild(infoDiv);
+    return card;
   }
 
   function renderPants() {
@@ -297,82 +425,32 @@
     if (!grid) return;
     grid.innerHTML = '';
     pantsData.forEach(p => {
-      const card = document.createElement('div');
-      card.className = 'product-card';
-      const priceDisplay = p.price;
-      const hasDiscount = p.discounted ? `<span class="old-price">${p.original || ''}</span>` : '';
-      const badgeHtml = p.badge ? `<span class="new-badge">${p.badge === 'New Arrival' ? '🔥 New' : (p.badge === 'designer' ? '⭐ Designer' : '✨')}</span>` : '';
-      card.innerHTML = `
-        <div class="product-img">👖</div>
-        <div class="product-info">
-          <div class="product-title">
-            <span>${p.name}</span>
-            <span class="fav-icon">♡</span>
-          </div>
-          <div class="product-brand">${p.brand}</div>
-          <div class="price">
-            ${badgeHtml} ${priceDisplay} ${hasDiscount}
-          </div>
-        </div>
-      `;
+      const card = createProductCard(p, 'pants');
       grid.appendChild(card);
     });
   }
-
+  
   function renderShirts() {
     const grid = document.getElementById('shirts-grid');
     if (!grid) return;
     grid.innerHTML = '';
     shirtsData.forEach(s => {
-      const priceVal = s.price;
-      let originalHtml = '';
-      if (s.discounted) {
-        originalHtml = `<span class="old-price">${s.original}</span>`;
-      }
-      const badgeSpan = s.badge ? (s.badge === 'New Arrival' ? '<span class="new-badge">🆕 New Arrival</span>' : '<span class="new-badge">⭐ Featured</span>') : '';
-      // discounted price style
-      const priceClass = s.discounted ? 'discounted' : '';
-      card.innerHTML = `
-        <div class="product-img">👕</div>
-        <div class="product-info">
-          <div class="product-title">
-            <span>${s.name}</span>
-            <span class="fav-icon">♡</span>
-          </div>
-          <div class="product-brand">${s.brand}</div>
-          <div class="price ${priceClass}">
-            ${badgeSpan} ${priceVal} ${originalHtml}
-          </div>
-        </div>
-      `;
+      const card = createProductCard(s, 'shirt');
       grid.appendChild(card);
     });
   }
-
+  
   function renderShoes() {
     const grid = document.getElementById('shoes-grid');
     if (!grid) return;
     grid.innerHTML = '';
     shoesData.forEach(shoe => {
-      const badgeHtml = shoe.badge ? `<span class="new-badge">${shoe.badge === 'limited' ? '🔥 Limited' : '⭐ Bestseller'}</span>` : '';
-      card.innerHTML = `
-        <div class="product-img">👟</div>
-        <div class="product-info">
-          <div class="product-title">
-            <span>${shoe.name}</span>
-            <span class="fav-icon">♡</span>
-          </div>
-          <div class="product-brand">${shoe.brand}</div>
-          <div class="price">
-            ${badgeHtml} ${shoe.price}
-          </div>
-        </div>
-      `;
+      const card = createProductCard(shoe, 'shoe');
       grid.appendChild(card);
     });
   }
-
-  // run all renders with slight delay to ensure DOM ready
+  
+  // initialize all sections
   renderPants();
   renderShirts();
   renderShoes();
